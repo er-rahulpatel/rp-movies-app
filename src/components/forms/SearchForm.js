@@ -1,4 +1,4 @@
-import { Text, Button, CheckIcon, FormControl, HStack, Icon, Input, Select, VStack } from "native-base";
+import { Button, CheckIcon, FormControl, HStack, Icon, Input, Select, VStack, Box } from "native-base";
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from "react";
 
@@ -23,19 +23,21 @@ const SearchForm = ({ callSearchResults }) => {
             <VStack marginTop={2} width={"80%"} m={10}>
                 <FormControl isRequired>
                     <FormControl.Label>Search Movie/TV Show Name</FormControl.Label>
-                    <Input placeholder="i.e. James Bond, CSI"
-                        InputLeftElement={
-                            <Icon as={<Ionicons name="ios-search" />} m={1} />
-                        }
-                        onChangeText={(text) => setInputText(text)}
-                        onEndEditing={(text) => {
-                            if (inputText.trim() != "") {
-                                setIsError(false);
+                    <Box style={[isError && { borderWidth: 1 }, isError && { borderColor: 'red' }]}>
+                        <Input placeholder="i.e. James Bond, CSI"
+                            InputLeftElement={
+                                <Icon as={<Ionicons name="ios-search" />} m={1} />
                             }
-                        }}
-                        value={inputText}
-                    />
-                    {isError ? <Text style={{ color: "red" }}>Please enter a search term</Text> : null}
+                            onChangeText={(text) => setInputText(text)}
+                            onEndEditing={(text) => {
+                                if (inputText.trim() != "") {
+                                    setIsError(false);
+                                }
+                            }}
+                            value={inputText}
+
+                        />
+                    </Box>
                     <FormControl.Label>Choose Search Type</FormControl.Label>
                     <HStack space={3} alignItems={"center"}>
                         <Select selectedValue={mediaType}
@@ -49,7 +51,13 @@ const SearchForm = ({ callSearchResults }) => {
                         </Select>
                         <Button startIcon={<Icon as={<Ionicons name="ios-search" />} />} onPress={searchClicked}>Search</Button>
                     </HStack>
-                    <FormControl.HelperText>Please select a search type</FormControl.HelperText>
+                    {
+                        isError
+                            ?
+                            <FormControl.HelperText _text={{ color: '#ff0000' }}>Movie/TV show name is required</FormControl.HelperText>
+                            :
+                            <FormControl.HelperText>Please select a search type</FormControl.HelperText>
+                    }
                 </FormControl>
             </VStack>
         </>
