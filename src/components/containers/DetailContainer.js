@@ -15,7 +15,7 @@ const DetailContainer = ({ navigation, route }) => {
         getDetails(mediaType, id).then(res => {
             setDetails(res);
             navigation.setOptions({
-                title: res.title ? res.title : res.name,
+                title: res.original_title ? res.original_title : res.original_name,
             });
             setIsLoading(false);
         }
@@ -32,11 +32,11 @@ const DetailContainer = ({ navigation, route }) => {
                     isLoading ? <Loading /> :
                         details ?
                             <VStack space={2} alignItems="center" m={6}>
-                                <Heading mb={5}>{details.title ? details.title : details.name}</Heading>
+                                <Heading mb={5}>{details.original_title ? details.original_title : details.original_name}</Heading>
                                 <Image source={{ uri: `${IMAGE_BASE_URL}/${details.poster_path}` }} alt={details.title ? details.title : details.name} size={"2xl"} />
 
                                 <Text>{details.overview}</Text>
-                                <Text mt={4} style={{ alignSelf: 'flex-start' }}>Popularity: {details.popularity} | Release Date: {details.releaseDate}</Text>
+                                <Text mt={4} style={{ alignSelf: 'flex-start' }}>Popularity: {details.popularity} | Release Date: {details.release_date}</Text>
                             </VStack>
                             :
                             <Text>No Records Found</Text>
